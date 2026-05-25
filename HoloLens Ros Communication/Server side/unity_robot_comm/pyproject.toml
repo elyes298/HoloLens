@@ -1,0 +1,17 @@
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "unity_robot_comm"
+version = "0.0.0"
+description = "ROS 2 to Unity Communication Test Package"
+readme = "README.md"
+license = { text = "Apache-2.0" }
+maintainers = [{ name = "Elyes", email = "elyes298@github.com" }]
+dependencies = [
+    "rclpy",
+]
+
+[project.scripts]
+talker_listener = "unity_robot_comm.communication_node:main"
