@@ -16,15 +16,6 @@ public class RosCommunication : MonoBehaviour
         Debug.Log($"Bridge Initialized. Listening on '{importedTopicName}' and publishing on '{exportedTopicName}'");
     }
 
-    void Update()
-    {
-        // wir brauchen noch nen Trigger hier. 
-        // es sollte die Position des Gameobjects am Server schicken.
-        if (Input.GetKeyDown(KeyCode.Space))
-        {
-            SendPositionToRos();
-        }
-    }
 
     public void SendPositionToRos()
     {
@@ -43,6 +34,24 @@ public class RosCommunication : MonoBehaviour
         ros.Publish(exportedTopicName, positionMessage);
         Debug.Log($"Sent coordinates to ROS: X={currentPosition.x}, Y={currentPosition.y}, Z={currentPosition.z}");
     }
+
+    public void SendPositionToRos(Vector3 targetPosition)
+    {
+        if (ros == null)
+        {
+            Debug.LogWarning("ROS connection not ready yet.");
+            return;
+        }
+
+        PointMsg positionMessage = new PointMsg(
+            targetPosition.x,
+            targetPosition.y,
+            targetPosition.z
+        );
+        
+        ros.Publish(exportedTopicName, positionMessage);
+        Debug.Log($"Sent selected coordinates to ROS: X={targetPosition.x}, Y={targetPosition.y}, Z={targetPosition.z}");
+    }   
 
     private void OnHeartbeatReceived(StringMsg msg)
     {
